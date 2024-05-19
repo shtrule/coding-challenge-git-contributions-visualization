@@ -24,16 +24,15 @@ if (!Repository.IsValid(repoPath))
     return;
 }
 
-using (var repo = new Repository(repoPath))
+PrintCurrentUserStatsForRepo(repoPath, numberOfDays);
+
+void PrintCurrentUserStatsForRepo(string repoPath, int numberOfDays)
 {
-    var config = repo.Config;
-
-    var username = config.Get<string>("user.name")?.Value;
-    var email = config.Get<string>("user.email")?.Value;
-    Console.WriteLine($"Username: {username}, Email: {email}");
-
-    foreach (var commit in repo.Commits.Where(c => c.Author.When > DateTime.Now.AddDays(-numberOfDays) && c.Author.Email == email))
+    using (var repo = new Repository(repoPath))
     {
-        Console.WriteLine($"Commit message: {commit.Message}, when: {commit.Author.When}");
+        var userEmail = repo.Config.Get<string>("user.email")?.Value;
+        var numberOfCommits = repo.Commits.Count(c => c.Author.When > DateTime.Now.AddDays(-numberOfDays) && c.Author.Email == userEmail);
+        
+        Console.WriteLine($"Number of commits by {userEmail} in the last {numberOfDays} days: {numberOfCommits}");
     }
 }
