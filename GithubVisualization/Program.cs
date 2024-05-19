@@ -3,7 +3,7 @@
 Console.WriteLine("Enter the path to the repository: ");
 var repoPath = Console.ReadLine();
 
-if (string.IsNullOrWhiteSpace(repoPath))
+if (string.IsNullOrWhiteSpace(repoPath) || !Directory.Exists(repoPath))
 {
     Console.WriteLine("Invalid path.");
     return;
@@ -14,6 +14,13 @@ var numberOfDaysRaw = Console.ReadLine();
 
 if (!int.TryParse(numberOfDaysRaw, out var numberOfDays)) {
     Console.WriteLine("Invalid number of days.");
+    return;
+}
+
+
+if (!Repository.IsValid(repoPath))
+{
+    Console.WriteLine("Repository is not valid.");
     return;
 }
 
