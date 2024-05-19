@@ -9,7 +9,13 @@ if (string.IsNullOrWhiteSpace(repoPath))
     return;
 }
 
-var numberOfDays = 30;
+Console.WriteLine("Enter the number of days to look back for commits: ");
+var numberOfDaysRaw = Console.ReadLine();
+
+if (!int.TryParse(numberOfDaysRaw, out var numberOfDays)) {
+    Console.WriteLine("Invalid number of days.");
+    return;
+}
 
 using (var repo = new Repository(repoPath))
 {
