@@ -1,12 +1,26 @@
-﻿using LibGit2Sharp;
+﻿using LibGit2Sharp;//TODO: Replace this with your own implementation after implementing the Git client
 
 Console.WriteLine("Enter the path to the repository: ");
-string repoPath = Console.ReadLine();
+var repoPath = Console.ReadLine();
+
+if (string.IsNullOrWhiteSpace(repoPath))
+{
+    Console.WriteLine("Invalid path.");
+    return;
+}
+
+var numberOfDays = 30;
 
 using (var repo = new Repository(repoPath))
 {
-    foreach (var commit in repo.Commits)
+    var config = repo.Config;
+
+    var username = config.Get<string>("user.name")?.Value;
+    var email = config.Get<string>("user.email")?.Value;
+    Console.WriteLine($"Username: {username}, Email: {email}");
+
+    foreach (var commit in repo.Commits.Where(c => c.Author.When > DateTime.Now.AddDays(-numberOfDays) && c.Author.Email == email))
     {
-        Console.WriteLine($"Commit message: {commit.Message}");
+        Console.WriteLine($"Commit message: {commit.Message}, when: {commit.Author.When}");
     }
 }
