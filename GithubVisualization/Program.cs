@@ -18,13 +18,19 @@ if (!int.TryParse(numberOfDaysRaw, out var numberOfDays)) {
 }
 
 
-if (!Repository.IsValid(repoPath))
+if (Repository.IsValid(repoPath))
 {
-    Console.WriteLine("Repository is not valid.");
+    PrintCurrentUserStatsForRepo(repoPath, numberOfDays);
     return;
 }
 
-PrintCurrentUserStatsForRepo(repoPath, numberOfDays);
+foreach (var subDir in Directory.GetDirectories(repoPath))
+{
+    if (Repository.IsValid(subDir))
+    {
+        PrintCurrentUserStatsForRepo(subDir, numberOfDays);
+    }
+}
 
 void PrintCurrentUserStatsForRepo(string repoPath, int numberOfDays)
 {
