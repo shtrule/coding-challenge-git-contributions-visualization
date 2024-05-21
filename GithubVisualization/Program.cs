@@ -34,11 +34,27 @@ foreach (var subDir in Directory.GetDirectories(repoPath))
 
 void PrintCurrentUserStatsForRepo(string repoPath, int numberOfDays)
 {
+    var dict = new Dictionary<string, int>();
     using (var repo = new Repository(repoPath))
     {
-        var userEmail = repo.Config.Get<string>("user.email")?.Value;
-        var numberOfCommits = repo.Commits.Count(c => c.Author.When > DateTime.Now.AddDays(-numberOfDays) && c.Author.Email == userEmail);
-        
-        Console.WriteLine($"Number of commits by {userEmail} in the last {numberOfDays} days: {numberOfCommits}");
+        foreach (var commit in repo.Commits.Where(c => c.Author.When > DateTime.Now.AddDays(-numberOfDays)))
+        {
+            if (dict.ContainsKey(commit.Author.Email))
+            {
+                dict[commit.Author.Email]++;
+            }
+            else
+            {
+                dict[commit.Author.Email] = 1;
+            }
+        }
+
+        if (dict.Count > 0) {
+            var repoName = new DirectoryInfo(repo.Info.WorkingDirectory).Name;
+            foreach (var entry in dict)
+            {
+                Console.WriteLine($"Number of commits by {entry.Key} in repo {repoName} the last {numberOfDays} days: {entry.Value}");
+            }
+        }
     }
 }
