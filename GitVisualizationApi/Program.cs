@@ -1,3 +1,5 @@
+using LibGit2Sharp;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,6 +20,14 @@ app.UseHttpsRedirection();
 
 app.MapGet("/contributions", (string path, int numberOfDays) =>
 {
+    if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+    {
+        return "Invalid path.";
+    }
+    if (!Repository.IsValid(path))
+    {
+        return "Invalid repository.";
+    }
     return path + " " + numberOfDays;  
 })
 .WithName("GetContributions")
