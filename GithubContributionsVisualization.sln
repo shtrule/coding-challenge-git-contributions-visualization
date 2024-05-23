@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GithubVisualization", "GithubVisualization\GithubVisualization.csproj", "{DDFD5AD3-8A77-43C0-9511-16633B2F9921}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitVisualizationApi", "GitVisualizationApi\GitVisualizationApi.csproj", "{EAAC71DE-DD7C-4D4A-B76D-FB97DBDBB418}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{DDFD5AD3-8A77-43C0-9511-16633B2F9921}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDFD5AD3-8A77-43C0-9511-16633B2F9921}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDFD5AD3-8A77-43C0-9511-16633B2F9921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAAC71DE-DD7C-4D4A-B76D-FB97DBDBB418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAAC71DE-DD7C-4D4A-B76D-FB97DBDBB418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAAC71DE-DD7C-4D4A-B76D-FB97DBDBB418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAAC71DE-DD7C-4D4A-B76D-FB97DBDBB418}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
