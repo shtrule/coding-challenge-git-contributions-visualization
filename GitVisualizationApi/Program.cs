@@ -1,3 +1,4 @@
+using GitVisualizationApi.Services;
 using LibGit2Sharp;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,13 +23,15 @@ app.MapGet("/contributions", (string path, int numberOfDays) =>
 {
     if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
     {
-        return "Invalid path.";
+        return Results.BadRequest("Invalid path.");
     }
-    if (!Repository.IsValid(path))
+    if (Repository.IsValid(path))
     {
-        return "Invalid repository.";
+        using var repo = new Repository(path);
+        var repoStats = RepoParser.GetCurrentUserStatsForRepo(repo, numberOfDays);
+        return Results.Ok(repoStats);
     }
-    return path + " " + numberOfDays;  
+    return Results.NotFound("The folder is not a repository.");
 })
 .WithName("GetContributions")
 .WithOpenApi();
