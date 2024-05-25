@@ -1,7 +1,16 @@
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5211/contributions?path=D:/repos/coding-challenge-git-contributions-visualization&numberOfDays=7')
+      .then(response => response.json())
+      .then(data => setData(data));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -9,6 +18,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        {data && <p>Data from API: {JSON.stringify(data)}</p>}
         <a
           className="App-link"
           href="https://reactjs.org"
