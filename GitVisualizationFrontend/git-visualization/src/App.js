@@ -6,7 +6,7 @@ function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5211/contributions?path=D:/repos/coding-challenge-git-contributions-visualization&numberOfDays=7')
+    fetch('/contributions?path=D:/repos/coding-challenge-git-contributions-visualization&numberOfDays=7')
       .then(response => response.json())
       .then(data => setData(data));
   }, []);
@@ -16,7 +16,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Edit <code>src/App.js</code> and save to reload you fool.
         </p>
         {data && <p>Data from API: {JSON.stringify(data)}</p>}
         <a
