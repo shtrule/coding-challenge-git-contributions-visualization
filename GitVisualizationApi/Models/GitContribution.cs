@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace GitVisualizationApi.Models;
 
 public class GitUserContributions
@@ -5,6 +7,32 @@ public class GitUserContributions
     public GitUserContributions(string userEmail)
     {
         UserEmail = userEmail;
+    }
+
+    public void AddContribution(string repoName, DateTime date)
+    {
+        if (!ContributionsPerRepo.ContainsKey(repoName))
+        {
+            ContributionsPerRepo[repoName] = new List<GitContributionDateCount>();
+        }
+
+        var repoContributions = ContributionsPerRepo[repoName];
+        UpdateContributionListCount(date, repoContributions);
+        
+        UpdateContributionListCount(date, TotalContributions);
+    }
+
+    private static void UpdateContributionListCount(DateTime date, List<GitContributionDateCount> repoContributions)
+    {
+        var existingContribution = repoContributions.FirstOrDefault(x => x.Date == date);
+        if (existingContribution != null)
+        {
+            existingContribution.numberOfContributions++;
+        }
+        else
+        {
+            repoContributions.Add(new GitContributionDateCount { Date = date, numberOfContributions = 1 });
+        }
     }
 
     public string UserEmail { get; set; }
