@@ -1,17 +1,21 @@
 namespace GitVisualizationApi.Models;
 
-public class GitContribution
+public class GitUserContributions
 {
-    public GitContribution(string userEmail, string repoName, DateTime contributionsAfter)
+    public GitUserContributions(string userEmail)
     {
         UserEmail = userEmail;
-        RepoName = repoName;
-        ContributionsAfter = contributionsAfter;
     }
 
     public string UserEmail { get; set; }
-    public string RepoName { get; set; }
+    public Dictionary<string, List<GitContributionDateCount>> ContributionsPerRepo { get; set; } = new Dictionary<string, List<GitContributionDateCount>>();
 
-    public DateTime ContributionsAfter { get; set; }
-    public int Count { get; set; }
+    public List<GitContributionDateCount> TotalContributions { get; set; } = new List<GitContributionDateCount>();
+
+    public int TotalContributionsCount => TotalContributions.Sum(x => x.numberOfContributions);
+}
+
+public class GitContributionDateCount {
+    public int numberOfContributions { get; set; }
+    public DateTime Date { get; set; }
 }
