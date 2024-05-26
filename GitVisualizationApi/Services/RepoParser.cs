@@ -1,25 +1,24 @@
+using GitVisualizationApi.Models;
 using LibGit2Sharp;
 
 namespace GitVisualizationApi.Services;
 
 public class RepoParser
 {
-    public static Dictionary<string, int> GetCurrentUserStatsForRepo(Repository repo, int numberOfDays)
+    public static Dictionary<string, GitUserContributions> GetUserContributionsForRepo(Repository repo, int numberOfDays)
     {
-        var dict = new Dictionary<string, int>();
+        var userContributions = new Dictionary<string, GitUserContributions>();
 
         foreach (var commit in repo.Commits.Where(c => c.Author.When > DateTime.Now.AddDays(-numberOfDays)))
         {
-            if (dict.ContainsKey(commit.Author.Email))
+            if (!userContributions.ContainsKey(commit.Author.Email))
             {
-                dict[commit.Author.Email]++;
+                userContributions[commit.Author.Email] = new GitUserContributions(commit.Author.Email);
             }
-            else
-            {
-                dict[commit.Author.Email] = 1;
-            }
+
+            userContributions[commit.Author.Email].AddContribution(repo.Info.WorkingDirectory, commit.Author.When);
         }
 
-        return dict;
+        return userContributions;
     }
 }

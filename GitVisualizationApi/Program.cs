@@ -28,7 +28,7 @@ app.MapGet("/contributions", (string path, int numberOfDays) =>
     if (Repository.IsValid(path))
     {
         using var repo = new Repository(path);
-        var repoStats = RepoParser.GetCurrentUserStatsForRepo(repo, numberOfDays);
+        var repoStats = RepoParser.GetUserContributionsForRepo(repo, numberOfDays);
         return Results.Ok(repoStats);
     }
     return Results.NotFound("The folder is not a repository.");

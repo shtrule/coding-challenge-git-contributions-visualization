@@ -9,7 +9,7 @@ public class GitUserContributions
         UserEmail = userEmail;
     }
 
-    public void AddContribution(string repoName, DateTime date)
+    public void AddContribution(string repoName, DateTimeOffset date)
     {
         if (!ContributionsPerRepo.ContainsKey(repoName))
         {
@@ -18,20 +18,20 @@ public class GitUserContributions
 
         var repoContributions = ContributionsPerRepo[repoName];
         UpdateContributionListCount(date, repoContributions);
-        
+
         UpdateContributionListCount(date, TotalContributions);
     }
 
-    private static void UpdateContributionListCount(DateTime date, List<GitContributionDateCount> repoContributions)
+    private static void UpdateContributionListCount(DateTimeOffset date, List<GitContributionDateCount> repoContributions)
     {
-        var existingContribution = repoContributions.FirstOrDefault(x => x.Date == date);
+        var existingContribution = repoContributions.FirstOrDefault(x => x.Date.Date == date.Date);
         if (existingContribution != null)
         {
             existingContribution.numberOfContributions++;
         }
         else
         {
-            repoContributions.Add(new GitContributionDateCount { Date = date, numberOfContributions = 1 });
+            repoContributions.Add(new GitContributionDateCount { Date = date.Date, numberOfContributions = 1 });
         }
     }
 
