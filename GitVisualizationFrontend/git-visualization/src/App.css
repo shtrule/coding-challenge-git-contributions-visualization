@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+.App .react-calendar-heatmap .color-empty {
+  fill: #e0f3ff;  
+}
+
+.App .react-calendar-heatmap .color-github-1 {
+  fill: #acd5f2;
+}
+
+.App .react-calendar-heatmap .color-github-2 {
+  fill: #7fa8d1;
+}
+
+.App .react-calendar-heatmap .color-github-3 {
+  fill: #49729b;
+}
+
+.App .react-calendar-heatmap .color-github-max {
+  fill: #1f4a73; 
+}
+

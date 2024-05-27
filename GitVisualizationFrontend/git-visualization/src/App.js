@@ -51,6 +51,9 @@ function App() {
     if (!value) {
       return 'color-empty';
     }
+    if (value.count > 3) {
+      return `color-github-max`;
+    }
     return `color-github-${value.count}`;
   };
 
