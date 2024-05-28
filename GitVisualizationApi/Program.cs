@@ -30,8 +30,10 @@ app.MapGet("/contributions", (string path, int numberOfDays) =>
         using var repo = new Repository(path);
         var repoStats = RepoParser.GetUserContributionsForRepo(repo, numberOfDays);
         return Results.Ok(repoStats);
-    }
-    return Results.NotFound("The folder is not a repository.");
+    }   
+
+    var repoStatsFoo = RepoParser.GetUserContributionsForRepos(path, numberOfDays);
+    return Results.Ok(repoStatsFoo);
 })
 .WithName("GetContributions")
 .WithOpenApi();

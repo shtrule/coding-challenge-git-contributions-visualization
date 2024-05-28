@@ -9,7 +9,7 @@ function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('/contributions?path=D:/repos/coding-challenge-git-contributions-visualization&numberOfDays=7')
+    fetch('/contributions?path=D:/repos&numberOfDays=365')
       .then(response => response.json())
       .then(data => {
         console.log('API data:', data);
