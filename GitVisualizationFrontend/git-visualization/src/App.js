@@ -61,10 +61,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload you fool.
-        </p>
-        {data && <p>Data from API: {JSON.stringify(data)}</p>}
         {data && (
           <CalendarHeatmap
             startDate={new Date(new Date().setFullYear(new Date().getFullYear() - 1))}
