@@ -18,22 +18,22 @@ function App() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  let heatmapData = [];
+  let heatmapDataByUser = [];
 
   if (data) {
-    let userEmail = 'nemanjamilenkovic@live.com';
-    let userContributions = data[userEmail];
-
-    if (userContributions && Array.isArray(userContributions.totalContributions)) {
-      console.log('User contributions:', userContributions.totalContributions);
-      heatmapData = userContributions.totalContributions
-        .filter(contribution => contribution.date)
-        .map(contribution => ({
-          date: new Date(contribution.date).toISOString().slice(0, 10),
-          count: contribution.numberOfContributions,
-        }));
-      console.log('Heatmap data:', heatmapData);
-    }
+    heatmapDataByUser = Object.keys(data).map((userEmail) => {
+      const userContributions = data[userEmail];
+      let heatmapData = [];
+      if (userContributions && Array.isArray(userContributions.totalContributions)) {
+        heatmapData = userContributions.totalContributions
+          .filter(contribution => contribution.date)
+          .map(contribution => ({
+            date: new Date(contribution.date).toISOString().slice(0, 10),
+            count: contribution.numberOfContributions,
+          }));
+      }
+      return { userEmail, heatmapData };
+    });
   }
 
   const getTooltipDataAttrs = (value) => {
@@ -61,15 +61,18 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        {data && (
-          <CalendarHeatmap
-            startDate={new Date(new Date().setFullYear(new Date().getFullYear() - 1))}
-            endDate={new Date()}
-            values={heatmapData}
-            classForValue={classForValue}
-            tooltipDataAttrs={getTooltipDataAttrs}
-          />
-        )}
+        {heatmapDataByUser.map(({ userEmail, heatmapData }) => (
+          <div key={userEmail} style={{width: "100%"}}>
+            <h2>{userEmail}</h2>
+            <CalendarHeatmap
+              startDate={new Date(new Date().setFullYear(new Date().getFullYear() - 1))}
+              endDate={new Date()}
+              values={heatmapData}
+              classForValue={classForValue}
+              tooltipDataAttrs={getTooltipDataAttrs}
+            />
+          </div>
+        ))}
         <a
           className="App-link"
           href="https://reactjs.org"
